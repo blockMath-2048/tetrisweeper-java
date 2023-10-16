@@ -366,7 +366,7 @@ public class GameController extends GameScript {
         nextPiece();
     }
 
-    public void Update(float deltaTime)
+    public void Update(float deltaTime, Main main)
     {
         switch (menuItems.get(1).selection)
         {
@@ -405,7 +405,7 @@ public class GameController extends GameScript {
         {
             return;
         }
-        board.time += Time.deltaTime;
+        board.time += deltaTime;
         if (board.time >= 5999f)
         {
             board.time = 5999f;
@@ -438,6 +438,8 @@ public class GameController extends GameScript {
         }
         lastMouseL = input.reveal;
         lastMouseR = input.flag;
+
+        this.FixedUpdate(deltaTime);
     }
 
     private void removePiece()
@@ -842,12 +844,12 @@ public class GameController extends GameScript {
         return true;
     }
 
-    private void FixedUpdate()
+    private void FixedUpdate(float deltaTime)
     {
-        board.tilePrevCleared = new bool[board.boardSize.y][];
+        board.tilePrevCleared = new boolean[board.boardSize.y][];
         for (int i = 0; i < board.boardSize.y; i++)
         {
-            board.tilePrevCleared[i] = new bool[board.boardSize.x];
+            board.tilePrevCleared[i] = new boolean[board.boardSize.x];
             for (int j = 0; j < board.boardSize.x; j++)
             {
                 board.tilePrevCleared[i][j] = false;
@@ -878,7 +880,7 @@ public class GameController extends GameScript {
         {
             nextPiece();
         }
-        autoDropTimer += Time.deltaTime;
+        autoDropTimer += deltaTime;
         if (input.left > 0)
         {
             input.left--;
@@ -925,7 +927,7 @@ public class GameController extends GameScript {
         {
             for (int m = 0; m < 4; m++)
             {
-                Vector2Int vector2Int = pieceData[heldPiece][0][m] + heldPreview.offsetPos;
+                Vector2Int vector2Int = Vector2Int.add(pieceData[heldPiece][0][m], heldPreview.offsetPos);
                 heldPreview.board[vector2Int.y][vector2Int.x] = (byte)(heldPiece + (((heldMines & (1 << m)) != 0) ? 128 : 0) + (((heldReveals & (1 << m)) != 0) ? 16 : 0));
             }
         }
@@ -938,7 +940,7 @@ public class GameController extends GameScript {
         }
         for (int num2 = 0; num2 < 4; num2++)
         {
-            Vector2Int vector2Int2 = pieceData[pieceQueue.get(0)][0][num2] + nextPreview.offsetPos;
+            Vector2Int vector2Int2 = Vector2Int.add(pieceData[pieceQueue.get(0)][0][num2], nextPreview.offsetPos);
             nextPreview.board[vector2Int2.y][vector2Int2.x] = (byte)(int)pieceQueue.get(0);
         }
         for (int num3 = 0; num3 < board.boardSize.y; num3++)

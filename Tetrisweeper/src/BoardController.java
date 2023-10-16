@@ -110,7 +110,7 @@ public class BoardController extends GameScript {
         return num;
     }
 
-    public void UpdateTilemap()
+    public void UpdateTilemap(Main main)
     {
         for (int i = 0; i < tilemap.boardSize.y; i++)
         {
@@ -134,7 +134,7 @@ public class BoardController extends GameScript {
         }
     }
 
-    public void Update(float deltaTime)
+    public void Update(float deltaTime, Main main)
     {
         if (tilemap.lastPlayerAlive && !tilemap.playerAlive)
         {

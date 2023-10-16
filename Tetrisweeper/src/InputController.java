@@ -209,7 +209,7 @@ public class InputController extends GameScript {
         left = (right = (down = (rotLeft = (rotRight = (hold = (reveal = (flag = (pause = (selUp = (selDown = (selLeft = (selRight = 0))))))))))));
     }
 
-    public void Update(float deltaTime)
+    public void Update(float deltaTime, Main main)
     {
         UpdateBlockControls();
         if (Input.GetAxisRaw("Cancel") > 0f)
