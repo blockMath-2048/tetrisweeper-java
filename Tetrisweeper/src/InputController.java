@@ -1,9 +1,8 @@
 import java.util.ArrayList;
+import java.awt.event.KeyEvent;
 
 public class InputController extends GameScript {
     public BoardController board;
-
-    public Camera mainCamera;
 
     public float[] repDelay = new float[]{
         0.25f,
@@ -75,7 +74,7 @@ public class InputController extends GameScript {
         selectionPos = new Vector2Int(5, 0);
     }
 
-    private void UpdateBlockControls()
+    private void UpdateBlockControls(float deltaTime)
     {
         float axisRaw = Input.GetAxisRaw("Horizontal");
         float axisRaw2 = Input.GetAxisRaw("Vertical");
@@ -89,7 +88,7 @@ public class InputController extends GameScript {
         }
         if (axisRaw < 0f)
         {
-            held[0] += Time.deltaTime;
+            held[0] += deltaTime;
         }
         else
         {
@@ -97,7 +96,7 @@ public class InputController extends GameScript {
         }
         if (axisRaw > 0f)
         {
-            held[1] += Time.deltaTime;
+            held[1] += deltaTime;
         }
         else
         {
@@ -105,7 +104,7 @@ public class InputController extends GameScript {
         }
         if (axisRaw2 < 0f)
         {
-            held[2] += Time.deltaTime;
+            held[2] += deltaTime;
         }
         else
         {
@@ -113,7 +112,7 @@ public class InputController extends GameScript {
         }
         if (axisRaw3 < 0f)
         {
-            held[3] += Time.deltaTime;
+            held[3] += deltaTime;
         }
         else
         {
@@ -121,7 +120,7 @@ public class InputController extends GameScript {
         }
         if (axisRaw3 > 0f)
         {
-            held[4] += Time.deltaTime;
+            held[4] += deltaTime;
         }
         else
         {
@@ -129,7 +128,7 @@ public class InputController extends GameScript {
         }
         if (axisRaw2 > 0f)
         {
-            held[5] += Time.deltaTime;
+            held[5] += deltaTime;
         }
         else
         {
@@ -137,7 +136,7 @@ public class InputController extends GameScript {
         }
         if (axisRaw5 > 0f)
         {
-            held[6] += Time.deltaTime;
+            held[6] += deltaTime;
         }
         else
         {
@@ -145,7 +144,7 @@ public class InputController extends GameScript {
         }
         if (axisRaw5 < 0f)
         {
-            held[7] += Time.deltaTime;
+            held[7] += deltaTime;
         }
         else
         {
@@ -153,7 +152,7 @@ public class InputController extends GameScript {
         }
         if (axisRaw4 < 0f)
         {
-            held[8] += Time.deltaTime;
+            held[8] += deltaTime;
         }
         else
         {
@@ -161,7 +160,7 @@ public class InputController extends GameScript {
         }
         if (axisRaw4 > 0f)
         {
-            held[9] += Time.deltaTime;
+            held[9] += deltaTime;
         }
         else
         {
@@ -211,15 +210,15 @@ public class InputController extends GameScript {
 
     public void Update(float deltaTime, Main main)
     {
-        UpdateBlockControls();
+        UpdateBlockControls(deltaTime);
         if (Input.GetAxisRaw("Cancel") > 0f)
         {
             pause = 1;
         }
         if (mouseControl)
         {
-            Vector3 vector = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 vector2 = new Vector2((vector.x - board.tilemap.transform.position.x) / board.tilemap.tileSize.x + (float)(board.tilemap.boardSize.x / 2), (vector.y - board.tilemap.transform.position.y) / board.tilemap.tileSize.y + (float)(board.tilemap.boardSize.y / 2) + 0.5f);
+            Vector3 vector = Input.mousePosition;
+            Vector2 vector2 = new Vector2((vector.x - board.tilemap.transform.x) / board.tilemap.tileSize.x + (float)(board.tilemap.boardSize.x / 2), (vector.y - board.tilemap.transform.y) / board.tilemap.tileSize.y + (float)(board.tilemap.boardSize.y / 2) + 0.5f);
             selectionPos = new Vector2Int((int)vector2.x, (int)vector2.y);
             reveal = (Input.GetMouseButton(0) ? 1 : 0);
             flag = (Input.GetMouseButton(1) ? 1 : 0);

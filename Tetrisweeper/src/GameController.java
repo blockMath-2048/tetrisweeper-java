@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameController extends GameScript {
 
@@ -383,7 +384,7 @@ public class GameController extends GameScript {
         mineThreshold = (float)menuItems.get(2).selection / 20f;
         if ((mineThreshold < 0.1f || mineThreshold > 0.9f) && board.bhac < 1000000)
         {
-            board.bhac = (int)DateTime.Now.Ticks % 65536 + 65536;
+            board.bhac = (int)System.currentTimeMillis() % 65536 + 65536;
         }
         board.level = level(board.lines);
         if (board.level < menuItems.get(3).selection)
@@ -615,20 +616,27 @@ public class GameController extends GameScript {
                     pieceQueue.add(3);
                     break;
                 case 1:
-                    pieceQueue.add(UnityEngine.Random.Range(1, 8));
+                    pieceQueue.add((int)(Math.random() * 7 + 1));
                     break;
                 default:
                 {
                     int num = pieceRandMode;
-                    ArrayList<Integer> list = new ArrayList<Integer> { 1, 2, 3, 4, 5, 6, 7 };
+                    ArrayList<Integer> list = new ArrayList<Integer>();
+                    list.add(1);
+                    list.add(2);
+                    list.add(3);
+                    list.add(4);
+                    list.add(5);
+                    list.add(6);
+                    list.add(7);
                     for (int i = 7; i < num; i++)
                     {
-                        list.add(UnityEngine.Random.Range(1, 8));
+                        list.add((int)(Math.random() * 7 + 1));
                     }
                     for (int j = 0; j < num; j++)
                     {
-                        int index = UnityEngine.Random.Range(0, list.size());
-                        pieceQueue.add(list.get(index);
+                        int index = (int)(Math.random() * (list.size()));
+                        pieceQueue.add(list.get(index));
                         list.remove(index);
                     }
                     break;
@@ -645,19 +653,26 @@ public class GameController extends GameScript {
                     pieceQueue.add(3);
                     break;
                 case 1:
-                    pieceQueue.add(UnityEngine.Random.Range(1, 8));
+                    pieceQueue.add((int)(Math.random() * 7 + 1));
                     break;
                 default:
                 {
                     int num2 = pieceRandMode;
-                    ArrayList<Integer> list = new ArrayList<Integer> { 1, 2, 3, 4, 5, 6, 7 };
+                    ArrayList<Integer> list = new ArrayList<Integer>();
+                    list.add(1);
+                    list.add(2);
+                    list.add(3);
+                    list.add(4);
+                    list.add(5);
+                    list.add(6);
+                    list.add(7);
                     for (int k = 7; k < num2; k++)
                     {
-                        list.add(UnityEngine.Random.Range(1, 8));
+                        list.add((int)(Math.random() * 7 + 1));
                     }
                     for (int l = 0; l < num2; l++)
                     {
-                        int index2 = UnityEngine.Random.Range(0, list.size());
+                        int index2 = (int)(Math.random() * (list.size()));
                         pieceQueue.add(list.get(index2));
                         list.remove(index2);
                     }
@@ -669,8 +684,8 @@ public class GameController extends GameScript {
         currentMines = 0;
         for (int m = 0; m < 4; m++)
         {
-            boolean flag = UnityEngine.Random.Range(0f, 1f) <= mineThreshold;
-            currentMines = (byte)((uint)(currentMines << 1) | (flag ? 1 : 0));
+            boolean flag = Math.random() <= mineThreshold;
+            currentMines = (byte)((int)(currentMines << 1) | (flag ? 1 : 0));
         }
         currentReveals = 0;
         currentPos = new Vector2Int(board.boardSize.x / 2 - 1, board.boardSize.y - 5);
@@ -681,14 +696,14 @@ public class GameController extends GameScript {
     {
         switch (key)
         {
-            case InputKey.LEFT:
+            case LEFT:
                 tryMove(new Vector2Int(-1, 0));
                 break;
-            case InputKey.RIGHT:
+            case RIGHT:
                 tryMove(new Vector2Int(1, 0));
                 break;
-            case InputKey.DOWN:
-            case InputKey.AUTODOWN:
+            case DOWN:
+            case AUTODOWN:
             {
                 if (tryMove(new Vector2Int(0, -1)))
                 {
@@ -713,7 +728,7 @@ public class GameController extends GameScript {
                 audioController.playEffect(1);
                 break;
             }
-            case InputKey.ROTLEFT:
+            case ROTLEFT:
                 removePiece();
                 tmpRot = currentRot;
                 currentRot = (currentRot - 1) & 3;
@@ -723,7 +738,7 @@ public class GameController extends GameScript {
                 }
                 placePiece();
                 break;
-            case InputKey.ROTRIGHT:
+            case ROTRIGHT:
                 removePiece();
                 tmpRot = currentRot;
                 currentRot = (currentRot + 1) & 3;
@@ -733,7 +748,7 @@ public class GameController extends GameScript {
                 }
                 placePiece();
                 break;
-            case InputKey.HOLD:
+            case HOLD:
                 removePiece();
                 tmpPiece = currentPiece;
                 tmpMines = currentMines;
@@ -768,7 +783,7 @@ public class GameController extends GameScript {
                 }
                 placePiece();
                 break;
-            case InputKey.NONE:
+            case NONE:
                 break;
         }
     }
@@ -869,7 +884,7 @@ public class GameController extends GameScript {
         }
         if (!board.tilemap.playerAlive)
         {
-            if (Input.GetAxisRaw("Confirm") > 0f && audioController.effectID == 0)
+            if (audioController.effectID == 0)
             {
                 board.clearBoard();
                 Start();

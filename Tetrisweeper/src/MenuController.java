@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import static javafx.application.Platform.exit;
+
 public class MenuController extends GameScript {
     public GameController game;
 
@@ -29,7 +31,7 @@ public class MenuController extends GameScript {
     }
 
     public Vector3 lerp(Vector3 a, Vector3 b, float f) {
-        return a * f + b * (1f - f);
+        return Vector3.add(a.mul(f), b.mul(1f - f));
     }
 
     public void ExecuteSelection() {
@@ -44,7 +46,7 @@ public class MenuController extends GameScript {
         if (!this.game.board.tilemap.paused) {
             return;
         }
-        cursor.transform = pauseMenu.transform + new Vector3(-2.5f, 1.75f, 0f) + new Vector3(0f, -0.75f, 0f) * selection;
+        cursor.transform = Vector3.add(pauseMenu.transform, Vector3.add(new Vector3(-2.5f, 1.75f, 0f), new Vector3(0f, -0.75f * selection, 0f)));
         if (!selectionActive) {
             if (!pauseMenuActive) {
                 selection = 0;
@@ -65,7 +67,7 @@ public class MenuController extends GameScript {
                     input.clear();
                 }
             }
-            pauseMenu.transform = lerp(new Vector3(0f, 0f, -2f), new Vector3(0f, 10f, -2f), Mathf.Pow(animationFactor, animationPower));
+            pauseMenu.transform = lerp(new Vector3(0f, 0f, -2f), new Vector3(0f, 10f, -2f), (float)Math.pow(animationFactor, animationPower));
             return;
         }
         if (input.pause > 0) {

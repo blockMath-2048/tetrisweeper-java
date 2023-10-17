@@ -1,9 +1,10 @@
+import java.util.Locale;
+
 public class OverlayAnimationController extends GameScript {
     public float animationTimer = 1f;
 
     public int dir = 1;
 
-    public GameScript nameText;
 
     public TextMeshPro scoreText;
 
@@ -17,17 +18,16 @@ public class OverlayAnimationController extends GameScript {
     }
 
     public void Update(float deltaTime, Main main) {
-        scoreText.text = board.score.ToString("0000000");
+        scoreText.text = String.format(Locale.ENGLISH, "%7d", board.score);
         timeText.text = board.timeString;
-        hiscoreText.text = board.hiscore.ToString("0000000");
-        nameText.SetActive(dir == -1 && animationTimer == 0f);
+        hiscoreText.text = String.format(Locale.ENGLISH, "%7d", board.hiscore);
         animationTimer += deltaTime * (float) dir;
         if (animationTimer >= 1f) {
             animationTimer = 1f;
         } else if (animationTimer <= 0f) {
             animationTimer = 0f;
         }
-        this.transform = new Vector3(0f, 0f, -1f) + animationTimer * animationTimer * new Vector3(0f, -10f, 0f);
+        this.transform = Vector3.add(new Vector3(0f, 0f, -1f), new Vector3(0f, -10f, 0f).mul(animationTimer * animationTimer));
     }
 
     public void StartAnimation(int direction) {

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class AudioController extends GameScript {
     public AudioSource music;
 
@@ -62,7 +64,7 @@ public class AudioController extends GameScript {
         if (effect >= 16 && effect - 16 < clearSFX.size()) {
             clearSFX.get(effect - 16).Play();
         }
-        if (effect - 16 >= clearSFX.Count) {
+        if (effect - 16 >= clearSFX.size()) {
             clearSFX.get(clearSFX.size() - 1).Play();
         }
     }

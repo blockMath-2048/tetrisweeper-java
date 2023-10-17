@@ -23,7 +23,7 @@ public class MenuItem extends GameScript {
             return;
         }
         if (isSelected) {
-            if ((Object) (object) display == null) {
+            if (display == null) {
                 if (input.rotLeft > 0 || input.rotRight > 0) {
                     input.rotLeft = (input.rotRight = 0);
                     menu.ExecuteSelection();
@@ -45,7 +45,7 @@ public class MenuItem extends GameScript {
                 }
                 audioController.playEffect(3);
             }
-        } else if ((Object) (object) display != null) {
+        } else if ((Object)display != null) {
             display.text = "  " + options.get(selection) + "  ";
         }
     }

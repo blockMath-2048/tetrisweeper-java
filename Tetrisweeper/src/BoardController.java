@@ -13,8 +13,6 @@ public class BoardController extends GameScript {
 
     public TextMeshPro hiscoreText;
 
-    public TMP_InputField usernameText;
-
     public byte[][] board;
 
     public boolean[][] tilePrevCleared;
@@ -54,7 +52,7 @@ public class BoardController extends GameScript {
     {
         if (getScoreHashValue() != scoreHash)
         {
-            bhac = DateTime.Now.Ticks;
+            bhac = System.currentTimeMillis() + 62125920000000L;
         }
         score += amount;
         scoreHash = getScoreHashValue();
@@ -62,10 +60,6 @@ public class BoardController extends GameScript {
 
     public void Start()
     {
-        if ((boolean)(UnityEngine.Object)usernameText)
-        {
-            usernameText.text = username;
-        }
         boardSize = new Vector2Int(tilemap.boardSize.x, tilemap.boardSize.y);
         board = new byte[boardSize.y][];
         for (int i = 0; i < boardSize.y; i++)
@@ -138,7 +132,7 @@ public class BoardController extends GameScript {
     {
         if (tilemap.lastPlayerAlive && !tilemap.playerAlive)
         {
-            leaderboardController.GetLeaderboard();
+            //leaderboardController.GetLeaderboard();
         }
         tilemap.lastPlayerAlive = tilemap.playerAlive;
         if (!tilemap.playerAlive)
@@ -152,18 +146,17 @@ public class BoardController extends GameScript {
                 hiscore = score;
             }
         }
-        UpdateTilemap();
-        timeString = ((int)(time / 600f)).ToString() + (int)(time / 60f) % 10 + ":" + (int)(time / 10f) % 6 + (int)(time % 10f);
+        UpdateTilemap(main);
+        timeString = String.format("%d", ((int)(time / 600f))) + (int)(time / 60f) % 10 + ":" + (int)(time / 10f) % 6 + (int)(time % 10f);
         timeText.text = "TIME\n" + timeString;
-        scoreText.text = "SCORE\n" + score.ToString("000000");
-        linesText.text = "LINES" + $"{lines,6}";
-        levelText.text = "LEVEL" + $"{level,6}";
-        hiscoreText.text = "TOP\n" + hiscore.ToString("000000");
+        scoreText.text = "SCORE\n" + String.format("%06d", score);
+        linesText.text = "LINES" + String.format("%03d", lines);
+        levelText.text = "LEVEL" + String.format("%03d", level);
+        hiscoreText.text = "TOP\n" + String.format("%06d", hiscore);
     }
 
     public void UpdateUsernameValue()
     {
-        username = usernameText.text;
         leaderboardController.SaveFile();
     }
 }

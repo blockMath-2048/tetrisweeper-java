@@ -1,11 +1,11 @@
+import java.util.ArrayList;
+
 public class ScoreLeaderboardController extends GameScript {
     public GameController game;
 
-    public GameMessageController gameMsg;
-
     public OverlayAnimationController overlay;
 
-    public List<LeaderboardItemController> leaderboardItems;
+    public ArrayList<LeaderboardItemController> leaderboardItems;
 
     public LeaderboardItemController selectedItem;
 
@@ -18,14 +18,11 @@ public class ScoreLeaderboardController extends GameScript {
     }
 
     public void Start() {
-        GetLeaderboard();
-        gameMsg.bhac = "";
     }
 
     public void LateUpdate() {
         if (lastAlive && !game.board.tilemap.playerAlive) {
             overlay.StartAnimation(-1);
-            gameMsg.newHigh = game.board.score > game.board.prevHi;
             SaveFile();
         }
         if (!lastAlive && game.board.tilemap.playerAlive) {
@@ -34,23 +31,20 @@ public class ScoreLeaderboardController extends GameScript {
         lastAlive = game.board.tilemap.playerAlive;
     }
 
-    public int max(int a, int b) {
-        if (a <= b) {
-            return b;
-        }
-        return a;
-    }
+    /*public int max(int a, int b) {
+        return Math.max(a, b);
+    }*/
 
     public void SaveFile() {
-        string path = Application.persistentDataPath + "/persistent.dat";
+        /*string path = Application.persistentDataPath + "/persistent.dat";
         FileStream fileStream = ((!File.Exists(path)) ? File.Create(path) : File.OpenWrite(path));
         GameData graph = new GameData(max(game.board.hiscore, game.board.score), game.board.username);
         new BinaryFormatter().Serialize(fileStream, graph);
-        fileStream.Close();
+        fileStream.Close();*/
     }
 
     public void LoadFile() {
-        string path = Application.persistentDataPath + "/persistent.dat";
+        /*string path = Application.persistentDataPath + "/persistent.dat";
         if (File.Exists(path)) {
             FileStream fileStream = File.OpenRead(path);
             GameData gameData = (GameData) new BinaryFormatter().Deserialize(fileStream);
@@ -59,13 +53,13 @@ public class ScoreLeaderboardController extends GameScript {
             game.board.username = gameData.username;
         } else {
             game.board.hiscore = 0;
-        }
+        }*/
     }
-
+/*
     public void onFetchLeaderboard(Entry[] msg) {
         for (int i = 0; i < leaderboardItems.Count; i++) {
-            leaderboardItems[i].rank = i + 1;
-            if (i >= msg.Length) {
+            leaderboardItems.get(i).rank = i + 1;
+            if (i >= msg.length) {
                 leaderboardItems[i].displayName = "-";
                 leaderboardItems[i].score = 0;
             } else {
@@ -107,4 +101,6 @@ public class ScoreLeaderboardController extends GameScript {
             gameMsg.bhac = "COULD NOT VALIDATE AUTHENTICATION STATE.";
         }
     }
+
+ */
 }
