@@ -1,15 +1,17 @@
+import processing.core.PApplet;
+import processing.core.PImage;
+
+import java.util.Locale;
+
 public class BoardTilemap extends GameScript {
     public BoardTilemap globalTilemap;
 
-    public MeshFilter meshFilter;
 
-    public MeshRenderer meshRenderer;
+    public PImage[] graphicsAlive;
 
-    private Mesh mesh;
+    public PImage[] graphicsLoss;
 
-    public Material graphics;
-
-    public Material graphicsLoss;
+    public PImage[] graphics;
 
     public Vector2Int boardSize;
 
@@ -23,37 +25,18 @@ public class BoardTilemap extends GameScript {
 
     public byte[][] boardTiles;
 
-    public void Start() {
-        meshFilter = GetComponent < MeshFilter > ();
-        meshRenderer = GetComponent < MeshRenderer > ();
-        int num = boardSize.x * boardSize.y;
-        Vector3[] array = new Vector3[num * 4];
-        Vector2[] array2 = new Vector2[num * 4];
-        int[] array3 = new int[num * 6];
-        for (int i = 0; i < boardSize.y; i++) {
-            for (int j = 0; j < boardSize.x; j++) {
-                int num2 = i * boardSize.x + j;
-                array[num2 * 4] = new Vector3((float) boardSize.x * tileSize.x * -0.5f + (float) j * tileSize.x, (float) boardSize.y * tileSize.y * -0.5f + (float) i * tileSize.y, 0f);
-                array[num2 * 4 + 1] = new Vector3((float) boardSize.x * tileSize.x * -0.5f + (float) (j + 1) * tileSize.x, (float) boardSize.y * tileSize.y * -0.5f + (float) i * tileSize.y, 0f);
-                array[num2 * 4 + 2] = new Vector3((float) boardSize.x * tileSize.x * -0.5f + (float) j * tileSize.x, (float) boardSize.y * tileSize.y * -0.5f + (float) (i + 1) * tileSize.y, 0f);
-                array[num2 * 4 + 3] = new Vector3((float) boardSize.x * tileSize.x * -0.5f + (float) (j + 1) * tileSize.x, (float) boardSize.y * tileSize.y * -0.5f + (float) (i + 1) * tileSize.y, 0f);
-                array2[num2 * 4] = new Vector2(0f, 0f);
-                array2[num2 * 4 + 1] = new Vector2(0f, 0f);
-                array2[num2 * 4 + 2] = new Vector2(0f, 0f);
-                array2[num2 * 4 + 3] = new Vector2(0f, 0f);
-                array3[num2 * 6] = num2 * 4;
-                array3[num2 * 6 + 1] = num2 * 4 + 2;
-                array3[num2 * 6 + 2] = num2 * 4 + 1;
-                array3[num2 * 6 + 3] = num2 * 4 + 1;
-                array3[num2 * 6 + 4] = num2 * 4 + 2;
-                array3[num2 * 6 + 5] = num2 * 4 + 3;
-            }
+    public void Init(Main main) {
+        graphicsAlive = new PImage[256];
+        graphicsLoss = new PImage[256];
+        for (int i = 0; i < 256; i++) {
+            graphicsAlive[i] = main.loadImage(String.format(Locale.ENGLISH, "graphics/tile%03d.png", i));
+            graphicsLoss[i] = main.loadImage(String.format(Locale.ENGLISH, "graphics-failure/tile%03d.png", i));
         }
-        mesh = new Mesh();
-        mesh.vertices = array;
-        mesh.triangles = array3;
-        mesh.uv = array2;
-        meshFilter.mesh = mesh;
+    }
+
+    public void Start() {
+        int num = boardSize.x * boardSize.y;
+
         playerAlive = true;
         boardTiles = new byte[boardSize.y][];
         for (int k = 0; k < boardSize.y; k++) {
@@ -68,28 +51,21 @@ public class BoardTilemap extends GameScript {
         if (globalTilemap != null) {
             playerAlive = globalTilemap.playerAlive;
         }
-        Vector2[] array = new Vector2[boardSize.x * boardSize.y * 4];
+
+        if (playerAlive) {
+            graphics = graphicsAlive;
+        } else {
+            graphics = graphicsLoss;
+        }
+
         for (int i = 0; i < boardSize.y; i++) {
             for (int j = 0; j < boardSize.x; j++) {
-                int num = i * boardSize.x + j;
-                float num2 = 0f;
                 byte b = boardTiles[i][j];
                 if (i >= boardSize.y - 5 && b == 127) {
                     b = 95;
                 }
-                Vector2 vector = new Vector2((float) (b % 16) / 16f, (float) (16 - b / 16) / 16f);
-                array[num * 4] = new Vector2(0f + num2, -0.0625f + num2) + vector;
-                array[num * 4 + 1] = new Vector2(0.0625f - num2, -0.0625f + num2) + vector;
-                array[num * 4 + 2] = new Vector2(0f + num2, 0f - num2) + vector;
-                array[num * 4 + 3] = new Vector2(0.0625f - num2, 0f - num2) + vector;
+                main.image(graphics[b], j * tileSize.x + transform.x, i * tileSize.y + transform.y, tileSize.x, tileSize.y);
             }
-        }
-        mesh.uv = array;
-        meshFilter.mesh = mesh;
-        if (playerAlive) {
-            meshRenderer.material = graphics;
-        } else {
-            meshRenderer.material = graphicsLoss;
         }
     }
 }

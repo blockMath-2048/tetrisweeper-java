@@ -15,7 +15,20 @@ public class Main extends PApplet {
         size(600,600);
     }
     public void setup(){
-        inputHandler = 0; // REPLACE WITH INDEX IN <scripts> OF CLASS InputController
+        scripts = new ArrayList<>();
+
+        scripts.add(new BoardTilemap());
+        scripts.get(0).Init(this);
+        ((BoardTilemap)scripts.get(0)).boardSize = new Vector2Int(10, 20);
+        scripts.add(new BoardController());
+        ((BoardController)scripts.get(1)).tilemap = (BoardTilemap)scripts.get(0);
+        scripts.add(new GameController());
+        scripts.add(new InputController());
+        inputHandler = 3; // REPLACE WITH INDEX IN <scripts> OF CLASS InputController
+        scripts.add(new PiecePreview());
+        scripts.add(new PiecePreview());
+        scripts.add(new MenuController());
+        scripts.add(new OverlayAnimationController());
 
         for (GameScript script : scripts) {
             script.Start();
