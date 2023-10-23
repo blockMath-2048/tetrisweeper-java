@@ -369,7 +369,7 @@ public class GameController extends GameScript {
 
     public void Update(float deltaTime, Main main)
     {
-        switch (menuItems.get(1).selection)
+        switch (/*menuItems.get(1).selection*/0)
         {
             case 0:
                 pieceRandMode = 7;
@@ -381,18 +381,18 @@ public class GameController extends GameScript {
                 pieceRandMode = 1;
                 break;
         }
-        mineThreshold = (float)menuItems.get(2).selection / 20f;
+        mineThreshold = /*(float)menuItems.get(2).selection / 20f;*/ 0.1f;
         if ((mineThreshold < 0.1f || mineThreshold > 0.9f) && board.bhac < 1000000)
         {
             board.bhac = (int)System.currentTimeMillis() % 65536 + 65536;
         }
         board.level = level(board.lines);
-        if (board.level < menuItems.get(3).selection)
+        /*if (board.level < menuItems.get(3).selection)
         {
             board.level = menuItems.get(3).selection;
-        }
-        input.mouseControl = menuItems.get(4).selection == 0;
-        audioController.musicActive = menuItems.get(5).selection == 0;
+        }*/
+        input.mouseControl = /*menuItems.get(4).selection == 0*/ true;
+        audioController.musicActive = /*menuItems.get(5).selection == 0*/ true;
         board.tilePrevCleared = new boolean[board.boardSize.y][];
         for (int i = 0; i < board.boardSize.y; i++)
         {
@@ -931,7 +931,7 @@ public class GameController extends GameScript {
             autoDropTimer -= autoDropCooldown(board.level);
             onInput(InputKey.AUTODOWN);
         }
-        for (int k = 0; k < heldPreview.boardSize.y; k++)
+        /*for (int k = 0; k < heldPreview.boardSize.y; k++)
         {
             for (int l = 0; l < heldPreview.boardSize.x; l++)
             {
@@ -957,7 +957,7 @@ public class GameController extends GameScript {
         {
             Vector2Int vector2Int2 = Vector2Int.add(pieceData[pieceQueue.get(0)][0][num2], nextPreview.offsetPos);
             nextPreview.board[vector2Int2.y][vector2Int2.x] = (byte)(int)pieceQueue.get(0);
-        }
+        }*/
         for (int num3 = 0; num3 < board.boardSize.y; num3++)
         {
             for (int num4 = 0; num4 < board.boardSize.x; num4++)

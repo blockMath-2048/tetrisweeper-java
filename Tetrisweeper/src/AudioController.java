@@ -26,7 +26,7 @@ public class AudioController extends GameScript {
     }
 
     public void Update(float deltaTime, Main main) {
-        if (musicActive) {
+        /*if (musicActive) {
             music.mute = false;
         } else {
             music.mute = true;
@@ -40,11 +40,11 @@ public class AudioController extends GameScript {
                 effectID = 0;
             }
             music.pitch = deathEffectFactor;
-        }
+        }*/
     }
 
     public void playEffect(int effect) {
-        effectID = effect;
+        /*effectID = effect;
         effectFrame = 0f;
         if (effect == 0) {
             music.Play();
@@ -66,6 +66,6 @@ public class AudioController extends GameScript {
         }
         if (effect - 16 >= clearSFX.size()) {
             clearSFX.get(clearSFX.size() - 1).Play();
-        }
+        }*/
     }
 }

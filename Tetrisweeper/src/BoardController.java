@@ -60,7 +60,7 @@ public class BoardController extends GameScript {
 
     public void Start()
     {
-        boardSize = new Vector2Int(tilemap.boardSize.x, tilemap.boardSize.y);
+        boardSize = tilemap.boardSize;
         board = new byte[boardSize.y][];
         for (int i = 0; i < boardSize.y; i++)
         {
@@ -147,12 +147,12 @@ public class BoardController extends GameScript {
             }
         }
         UpdateTilemap(main);
-        timeString = String.format("%d", ((int)(time / 600f))) + (int)(time / 60f) % 10 + ":" + (int)(time / 10f) % 6 + (int)(time % 10f);
+        /*timeString = String.format("%d", ((int)(time / 600f))) + (int)(time / 60f) % 10 + ":" + (int)(time / 10f) % 6 + (int)(time % 10f);
         timeText.text = "TIME\n" + timeString;
         scoreText.text = "SCORE\n" + String.format("%06d", score);
         linesText.text = "LINES" + String.format("%03d", lines);
         levelText.text = "LEVEL" + String.format("%03d", level);
-        hiscoreText.text = "TOP\n" + String.format("%06d", hiscore);
+        hiscoreText.text = "TOP\n" + String.format("%06d", hiscore);*/
     }
 
     public void UpdateUsernameValue()
