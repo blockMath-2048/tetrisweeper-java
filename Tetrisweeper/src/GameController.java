@@ -17,25 +17,27 @@ public class GameController extends GameScript {
 
     public int currentRot;
 
-    public byte currentMines;
+    public short currentMines;
 
-    public byte currentReveals;
+    public short currentReveals;
 
     public Vector2Int currentPos;
 
     public int heldPiece;
 
-    public byte heldMines;
+    public short heldMines;
 
-    public byte heldReveals;
+    public short heldReveals;
+
+    public TextMeshPro nextPieceText, heldPieceText;
 
     private int tmpPiece;
 
     private int tmpRot;
 
-    private byte tmpMines;
+    private short tmpMines;
 
-    private byte tmpReveals;
+    private short tmpReveals;
 
     public PiecePreview heldPreview;
 
@@ -440,6 +442,59 @@ public class GameController extends GameScript {
         lastMouseL = input.reveal;
         lastMouseR = input.flag;
 
+        switch (pieceQueue.get(0)) {
+            case 0:
+                nextPieceText.text = "NEXT:\nNONE";
+                break;
+            case 1:
+                nextPieceText.text = "NEXT:\n[Z]";
+                break;
+            case 2:
+                nextPieceText.text = "NEXT:\n[L]";
+                break;
+            case 3:
+                nextPieceText.text = "NEXT:\n[O]";
+                break;
+            case 4:
+                nextPieceText.text = "NEXT:\n[S]";
+                break;
+            case 5:
+                nextPieceText.text = "NEXT:\n[I]";
+                break;
+            case 6:
+                nextPieceText.text = "NEXT:\n[J]";
+                break;
+            case 7:
+                nextPieceText.text = "NEXT:\n[T]";
+                break;
+        }
+        switch (heldPiece) {
+            case 0:
+                heldPieceText.text = "HELD:\nNONE";
+                break;
+            case 1:
+                heldPieceText.text = "HELD:\n[Z]";
+                break;
+            case 2:
+                heldPieceText.text = "HELD:\n[L]";
+                break;
+            case 3:
+                heldPieceText.text = "HELD:\n[O]";
+                break;
+            case 4:
+                heldPieceText.text = "HELD:\n[S]";
+                break;
+            case 5:
+                heldPieceText.text = "HELD:\n[I]";
+                break;
+            case 6:
+                heldPieceText.text = "HELD:\n[J]";
+                break;
+            case 7:
+                heldPieceText.text = "HELD:\n[T]";
+                break;
+        }
+
         this.FixedUpdate(deltaTime);
     }
 
@@ -450,7 +505,7 @@ public class GameController extends GameScript {
             Vector2Int vector2Int = Vector2Int.add(pieceData[currentPiece][currentRot][i], currentPos);
             if ((board.board[vector2Int.y][vector2Int.x] & 0x7F) >= 16)
             {
-                currentReveals |= (byte)(1 << i);
+                currentReveals |= (short)(1 << i);
             }
             board.board[vector2Int.y][vector2Int.x] = 0;
         }
@@ -461,7 +516,7 @@ public class GameController extends GameScript {
         for (int i = 0; i < 4; i++)
         {
             Vector2Int vector2Int = Vector2Int.add(pieceData[currentPiece][currentRot][i], currentPos);
-            board.board[vector2Int.y][vector2Int.x] = (byte)(currentPiece + (((currentMines & (1 << i)) != 0) ? 128 : 0) + (((currentReveals & (1 << i)) != 0) ? 16 : 0));
+            board.board[vector2Int.y][vector2Int.x] = (short)(currentPiece + (((currentMines & (1 << i)) != 0) ? 128 : 0) + (((currentReveals & (1 << i)) != 0) ? 16 : 0));
         }
     }
 
@@ -685,7 +740,7 @@ public class GameController extends GameScript {
         for (int m = 0; m < 4; m++)
         {
             boolean flag = Math.random() <= mineThreshold;
-            currentMines = (byte)((int)(currentMines << 1) | (flag ? 1 : 0));
+            currentMines = (short)((int)(currentMines << 1) | (flag ? 1 : 0));
         }
         currentReveals = 0;
         currentPos = new Vector2Int(board.boardSize.x / 2 - 1, board.boardSize.y - 5);
@@ -821,7 +876,7 @@ public class GameController extends GameScript {
     {
         for (int i = 0; i < board.boardSize.x; i++)
         {
-            byte b = board.board[row][i];
+            short b = board.board[row][i];
             if (b == 0)
             {
                 return false;
@@ -943,7 +998,7 @@ public class GameController extends GameScript {
             for (int m = 0; m < 4; m++)
             {
                 Vector2Int vector2Int = Vector2Int.add(pieceData[heldPiece][0][m], heldPreview.offsetPos);
-                heldPreview.board[vector2Int.y][vector2Int.x] = (byte)(heldPiece + (((heldMines & (1 << m)) != 0) ? 128 : 0) + (((heldReveals & (1 << m)) != 0) ? 16 : 0));
+                heldPreview.board[vector2Int.y][vector2Int.x] = (short)(heldPiece + (((heldMines & (1 << m)) != 0) ? 128 : 0) + (((heldReveals & (1 << m)) != 0) ? 16 : 0));
             }
         }
         for (int n = 0; n < nextPreview.boardSize.y; n++)
@@ -956,7 +1011,7 @@ public class GameController extends GameScript {
         for (int num2 = 0; num2 < 4; num2++)
         {
             Vector2Int vector2Int2 = Vector2Int.add(pieceData[pieceQueue.get(0)][0][num2], nextPreview.offsetPos);
-            nextPreview.board[vector2Int2.y][vector2Int2.x] = (byte)(int)pieceQueue.get(0);
+            nextPreview.board[vector2Int2.y][vector2Int2.x] = (short)(int)pieceQueue.get(0);
         }*/
         for (int num3 = 0; num3 < board.boardSize.y; num3++)
         {

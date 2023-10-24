@@ -13,7 +13,7 @@ public class BoardController extends GameScript {
 
     public TextMeshPro hiscoreText;
 
-    public byte[][] board;
+    public short[][] board;
 
     public boolean[][] tilePrevCleared;
 
@@ -61,13 +61,13 @@ public class BoardController extends GameScript {
     public void Start()
     {
         boardSize = tilemap.boardSize;
-        board = new byte[boardSize.y][];
+        board = new short[boardSize.y][];
         for (int i = 0; i < boardSize.y; i++)
         {
-            board[i] = new byte[boardSize.x];
+            board[i] = new short[boardSize.x];
             for (int j = 0; j < boardSize.x; j++)
             {
-                board[i][j] = (byte)((i == 0) ? 16 : 0);
+                board[i][j] = (short)((i == 0) ? 16 : 0);
             }
         }
     }
@@ -81,7 +81,7 @@ public class BoardController extends GameScript {
         {
             for (int j = 0; j < boardSize.x; j++)
             {
-                board[i][j] = (byte)((i == 0) ? 16 : 0);
+                board[i][j] = (short)((i == 0) ? 16 : 0);
             }
         }
     }
@@ -110,20 +110,20 @@ public class BoardController extends GameScript {
         {
             for (int j = 0; j < tilemap.boardSize.x; j++)
             {
-                byte b = (byte)(board[i][j] & (byte)0x7F);
+                short b = (short)(board[i][j] & (short)0x7F);
                 if (b == 0)
                 {
                     tilemap.boardTiles[i][j] = 127;
                 }
                 else if ((b & 0xF0) == 16)
                 {
-                    tilemap.boardTiles[i][j] = (byte)(16 + getMineCount(j, i));
+                    tilemap.boardTiles[i][j] = (short)(16 + getMineCount(j, i));
                 }
                 else
                 {
                     tilemap.boardTiles[i][j] = b;
                 }
-                tilemap.boardTiles[i][j] += (byte)(board[i][j] & 0x80);
+                tilemap.boardTiles[i][j] += (short)(board[i][j] & 0x80);
             }
         }
     }
@@ -147,12 +147,12 @@ public class BoardController extends GameScript {
             }
         }
         UpdateTilemap(main);
-        /*timeString = String.format("%d", ((int)(time / 600f))) + (int)(time / 60f) % 10 + ":" + (int)(time / 10f) % 6 + (int)(time % 10f);
+        timeString = String.format("%d", ((int)(time / 600f))) + (int)(time / 60f) % 10 + ":" + (int)(time / 10f) % 6 + (int)(time % 10f);
         timeText.text = "TIME\n" + timeString;
-        scoreText.text = "SCORE\n" + String.format("%06d", score);
-        linesText.text = "LINES" + String.format("%03d", lines);
-        levelText.text = "LEVEL" + String.format("%03d", level);
-        hiscoreText.text = "TOP\n" + String.format("%06d", hiscore);*/
+        scoreText.text = " SCORE\n" + String.format("%06d", score);
+        linesText.text = " LINES\n" + String.format("%6d", lines);
+        levelText.text = " LEVEL\n" + String.format("%6d", level);
+        hiscoreText.text = "TOP\n" + String.format("%06d", hiscore);
     }
 
     public void UpdateUsernameValue()

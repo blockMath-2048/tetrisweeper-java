@@ -10,4 +10,8 @@ public class GameScript {
     public void Update(float deltaTime, Main main) {
 
     }
+    public void LateUpdate(float deltaTime, Main main) {
+
+    }
+
 }

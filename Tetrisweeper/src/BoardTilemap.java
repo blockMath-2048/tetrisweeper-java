@@ -23,7 +23,7 @@ public class BoardTilemap extends GameScript {
 
     public boolean paused;
 
-    public byte[][] boardTiles;
+    public short[][] boardTiles;
 
     public void Init(Main main) {
         graphicsAlive = new PImage[256];
@@ -38,9 +38,9 @@ public class BoardTilemap extends GameScript {
         int num = boardSize.x * boardSize.y;
 
         playerAlive = true;
-        boardTiles = new byte[boardSize.y][];
+        boardTiles = new short[boardSize.y][];
         for (int k = 0; k < boardSize.y; k++) {
-            boardTiles[k] = new byte[boardSize.x];
+            boardTiles[k] = new short[boardSize.x];
             for (int l = 0; l < boardSize.x; l++) {
                 boardTiles[k][l] = 127;
             }
@@ -60,11 +60,11 @@ public class BoardTilemap extends GameScript {
 
         for (int i = 0; i < boardSize.y; i++) {
             for (int j = 0; j < boardSize.x; j++) {
-                byte b = boardTiles[i][j];
+                short b = boardTiles[i][j];
                 if (i >= boardSize.y - 5 && b == 127) {
                     b = 95;
                 }
-                main.image(graphics[b], j * tileSize.x + transform.x, i * tileSize.y + transform.y, tileSize.x, tileSize.y);
+                main.image(graphics[((int)b + 256) & 0xFF], j * tileSize.x + transform.x, (boardSize.y - i) * tileSize.y + transform.y, tileSize.x, tileSize.y);
             }
         }
     }
