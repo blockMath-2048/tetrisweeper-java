@@ -5,29 +5,29 @@ public class InputController extends GameScript {
     public BoardController board;
 
     public float[] repDelay = new float[]{
-        0.25f,
+        0.125f,
+                0.125f,
+                0.05f,
                 0.25f,
-                0.1f,
-                0.5f,
-                0.5f,
+                0.25f,
                 Float.POSITIVE_INFINITY,
-                0.25f,
-                0.25f,
-                0.25f,
-                0.25f
+                0.125f,
+                0.125f,
+                0.125f,
+                0.125f
     };
 
     public float[] repFreq = new float[]{
-        0.1f,
-                0.1f,
-                0.1f,
-                0.25f,
-                0.25f,
+        0.05f,
+                0.05f,
+                0.05f,
+                0.125f,
+                0.125f,
                 Float.POSITIVE_INFINITY,
-                0.1f,
-                0.1f,
-                0.1f,
-                0.1f
+                0.05f,
+                0.05f,
+                0.05f,
+                0.05f
     };
 
     public int left;
@@ -220,7 +220,7 @@ public class InputController extends GameScript {
             Vector3 vector = Input.mousePosition;
             Vector2 vector2 = new Vector2((vector.x - 1.66f * board.tilemap.transform.x) /
                     board.tilemap.tileSize.x + (float)(board.tilemap.boardSize.x / 2),
-                    (-vector.y + 4.7f * board.tilemap.transform.y) /
+                    (-vector.y + board.tilemap.transform.y + 435) /
                             board.tilemap.tileSize.y + (float)(board.tilemap.boardSize.y / 2) + 0.5f);
             selectionPos = new Vector2Int((int)vector2.x, (int)vector2.y);
             reveal = (Input.GetMouseButton(0) ? 1 : 0);

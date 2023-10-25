@@ -1,17 +1,18 @@
 import java.util.ArrayList;
+import processing.sound.*;
 
 public class AudioController extends GameScript {
-    public AudioSource music;
+    public SoundFile music;
 
-    public AudioSource death;
+    public SoundFile death;
 
-    public AudioSource bell;
+    public SoundFile bell;
 
-    public AudioSource menuScroll;
+    public SoundFile menuScroll;
 
-    public AudioSource menuSelect;
+    public SoundFile menuSelect;
 
-    public ArrayList<AudioSource> clearSFX;
+    public ArrayList<SoundFile> clearSFX;
 
     public int effectID;
 
@@ -21,51 +22,59 @@ public class AudioController extends GameScript {
 
     public boolean musicActive = true;
 
+    public void Init(Main main) {
+        music = new SoundFile(main, "Sounds/music.mp3");
+        death = new SoundFile(main, "Sounds/lose.mp3");
+        bell = new SoundFile(main, "Sounds/bell-flag.mp3");
+        menuScroll = new SoundFile(main, "Sounds/menuScroll.mp3");
+        menuSelect = new SoundFile(main, "Sounds/menuSelect.mp3");
+        clearSFX = new ArrayList<>();
+        for (int i = 0; i < 13; i++) {
+            clearSFX.add(new SoundFile(main, String.format("Sounds/clear%X.mp3", i)));
+            clearSFX.get(i).amp(0.5f);
+        }
+    }
+
     public void Start() {
         deathEffectFactor = 1f;
     }
 
     public void Update(float deltaTime, Main main) {
-        /*if (musicActive) {
-            music.mute = false;
-        } else {
-            music.mute = true;
-        }
         effectFrame += deltaTime;
         if (effectID == 1) {
             deathEffectFactor -= deltaTime / 5f;
             if (deathEffectFactor < 0.01f) {
                 deathEffectFactor = 1f;
-                music.Stop();
+                music.stop();
                 effectID = 0;
             }
-            music.pitch = deathEffectFactor;
-        }*/
+            music.rate(deathEffectFactor);
+        }
     }
 
     public void playEffect(int effect) {
-        /*effectID = effect;
+        effectID = effect;
         effectFrame = 0f;
         if (effect == 0) {
-            music.Play();
+            music.play();
         }
         if (effect == 1) {
-            death.Play();
+            death.play();
         }
         if (effect == 2) {
-            bell.Play();
+            bell.play();
         }
         if (effect == 3) {
-            menuScroll.Play();
+            menuScroll.play();
         }
         if (effect == 4) {
-            menuSelect.Play();
+            menuSelect.play();
         }
         if (effect >= 16 && effect - 16 < clearSFX.size()) {
-            clearSFX.get(effect - 16).Play();
+            clearSFX.get(effect - 16).play();
         }
         if (effect - 16 >= clearSFX.size()) {
-            clearSFX.get(clearSFX.size() - 1).Play();
-        }*/
+            clearSFX.get(clearSFX.size() - 1).play();
+        }
     }
 }

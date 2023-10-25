@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 
-import static javafx.application.Platform.exit;
-
 public class MenuController extends GameScript {
     public GameController game;
 
@@ -38,7 +36,7 @@ public class MenuController extends GameScript {
         if (selection == 0) {
             selectionActive = false;
         } else {
-            exit();
+            System.exit(0);
         }
     }
 

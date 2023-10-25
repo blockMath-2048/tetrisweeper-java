@@ -1,5 +1,6 @@
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.event.MouseEvent;
 
 import java.awt.event.KeyEvent;
 import java.sql.Time;
@@ -17,16 +18,16 @@ public class Main extends PApplet {
         size(800,900);
     }
     public void setup(){
+        init = 0;
         myFont = createFont("PressStart2P-Regular.ttf", 32);
         textFont(myFont);
 
         scripts = new ArrayList<>();
 
         scripts.add(new BoardTilemap());
-        scripts.get(0).Init(this);
-        ((BoardTilemap)scripts.get(0)).boardSize = new Vector2Int(10, 20);
+        ((BoardTilemap)scripts.get(0)).boardSize = new Vector2Int(10, 25);
         ((BoardTilemap)scripts.get(0)).tileSize = new Vector2(32, 32);
-        scripts.get(0).transform = new Vector3((float)width / 2 - 160, (float)height / 2 - 360, 0);
+        scripts.get(0).transform = new Vector3((float)width / 2 - 160, (float)height / 2 - 480, 0);
         scripts.add(new BoardController());
         BoardController boardController = (BoardController)scripts.get(1);
         boardController.tilemap = (BoardTilemap)scripts.get(0);
@@ -56,15 +57,25 @@ public class Main extends PApplet {
         scripts.add(gameController.heldPieceText = new TextMeshPro(new Vector2(40, 200)));
 
 
-        for (GameScript script : scripts) {
-            script.Start();
-        }
+
         prevFrame = Instant.now();
     }
-
+    int init;
     Instant prevFrame;
     public void draw(){
         background(0.0f, 0.0f, 64.0f);
+        if (init == 0) {
+            text("Loading 547 resources", 75, 300);
+            init = 1;
+            return;
+        } else if (init == 1) {
+            scripts.get(0).Init(this);
+            scripts.get(4).Init(this);
+            for (GameScript script : scripts) {
+                script.Start();
+            }
+            init = 2;
+        }
         float deltaTime = Time.from(prevFrame).getTime() / 100000000000000.0f;
         //System.out.println(deltaTime);
         Input.mousePosition = new Vector3(mouseX, mouseY, 0);
@@ -75,9 +86,24 @@ public class Main extends PApplet {
         for (int i = scripts.size() - 1; i >= 0; i--) {
             scripts.get(i).LateUpdate(deltaTime, this);
         }
+        if (!((BoardTilemap)scripts.get(0)).playerAlive) {
+            fill(64.0f, 200.0f);
+            rect(175, 340, 450, 200);
+            fill(255.0f);
+            text("  GAME OVER\n\nPress [ENTER]\nto restart !!", 195, 400);
+        }
         //fill(32.0f);
         //ellipse(Input.mousePosition.x, Input.mousePosition.y, 10, 10);
         //delay(10);
+    }
+    public void mousePressed(MouseEvent event) {
+        if (mouseButton == LEFT) Input.keyboard['n'] = true;
+        if (mouseButton == RIGHT) Input.keyboard['m'] = true;
+    }
+
+    public void mouseReleased(MouseEvent event) {
+        if (mouseButton == LEFT) Input.keyboard['n'] = false;
+        if (mouseButton == RIGHT) Input.keyboard['m'] = false;
     }
 
     public void keyPressed() {
@@ -86,6 +112,7 @@ public class Main extends PApplet {
             if (keyCode == DOWN) Input.keyboard['S'] = true;
             if (keyCode == LEFT) Input.keyboard['A'] = true;
             if (keyCode == RIGHT) Input.keyboard['D'] = true;
+            if (keyCode == ENTER) Input.keyboard['E'] = true;
         } else {
             Input.keyboard[key] = true;
         }
@@ -97,6 +124,7 @@ public class Main extends PApplet {
             if (keyCode == DOWN) Input.keyboard['S'] = false;
             if (keyCode == LEFT) Input.keyboard['A'] = false;
             if (keyCode == RIGHT) Input.keyboard['D'] = false;
+            if (keyCode == ENTER) Input.keyboard['E'] = false;
         } else {
             Input.keyboard[key] = false;
         }

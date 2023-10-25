@@ -383,10 +383,10 @@ public class GameController extends GameScript {
                 pieceRandMode = 1;
                 break;
         }
-        mineThreshold = /*(float)menuItems.get(2).selection / 20f;*/ 0.1f;
-        if ((mineThreshold < 0.1f || mineThreshold > 0.9f) && board.bhac < 1000000)
+        mineThreshold = /*(float)menuItems.get(2).selection / 20f;*/ 0.1f + (0.01f * level(board.lines));
+        if (mineThreshold > 0.9f)
         {
-            board.bhac = (int)System.currentTimeMillis() % 65536 + 65536;
+            mineThreshold = 0.9f;
         }
         board.level = level(board.lines);
         /*if (board.level < menuItems.get(3).selection)
@@ -404,8 +404,13 @@ public class GameController extends GameScript {
                 board.tilePrevCleared[i][j] = false;
             }
         }
-        if (!board.tilemap.playerAlive || board.tilemap.paused)
+        if (!board.tilemap.playerAlive)
         {
+            if (Input.keyboard['\n'])
+            {
+                board.clearBoard();
+                Start();
+            }
             return;
         }
         board.time += deltaTime;
@@ -916,6 +921,7 @@ public class GameController extends GameScript {
 
     private void FixedUpdate(float deltaTime)
     {
+
         board.tilePrevCleared = new boolean[board.boardSize.y][];
         for (int i = 0; i < board.boardSize.y; i++)
         {
@@ -936,15 +942,6 @@ public class GameController extends GameScript {
             {
                 board.tilemap.paused = true;
             }
-        }
-        if (!board.tilemap.playerAlive)
-        {
-            if (audioController.effectID == 0)
-            {
-                board.clearBoard();
-                Start();
-            }
-            return;
         }
         if (currentPiece == 0)
         {

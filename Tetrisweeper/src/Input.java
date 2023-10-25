@@ -30,6 +30,9 @@ public class Input {
                 else if (keyboard['A']) return -1;
                 else if (keyboard['D']) return 1;
                 else return 0;
+            case "Confirm":
+                if (keyboard['E']) return 1;
+                else return 0;
             case "Cancel":
                 if (keyboard['p']) return 1;
                 else return 0;
