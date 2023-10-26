@@ -21,11 +21,11 @@ public class BoardController extends GameScript {
 
     public float time;
 
-    public int score;
+    public long score;
 
-    public int hiscore;
+    public long hiscore;
 
-    public int prevHi;
+    public long prevHi;
 
     public long scoreHash;
 
@@ -60,6 +60,7 @@ public class BoardController extends GameScript {
 
     public void Start()
     {
+        hiscore = FileController.LoadFile();
         boardSize = tilemap.boardSize;
         board = new short[boardSize.y][];
         for (int i = 0; i < boardSize.y; i++)
@@ -144,7 +145,11 @@ public class BoardController extends GameScript {
             if (bhac == 0L && score > hiscore)
             {
                 hiscore = score;
+                FileController.SaveFile(hiscore);
             }
+        }
+        if (bhac != 0L) {
+            System.out.println("bhac");
         }
         UpdateTilemap(main);
         timeString = String.format("%d", ((int)(time / 600f))) + (int)(time / 60f) % 10 + ":" + (int)(time / 10f) % 6 + (int)(time % 10f);

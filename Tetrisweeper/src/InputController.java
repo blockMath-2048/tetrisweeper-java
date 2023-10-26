@@ -218,7 +218,7 @@ public class InputController extends GameScript {
         if (mouseControl)
         {
             Vector3 vector = Input.mousePosition;
-            Vector2 vector2 = new Vector2((vector.x - 1.66f * board.tilemap.transform.x) /
+            Vector2 vector2 = new Vector2((vector.x - board.tilemap.transform.x - 160) /
                     board.tilemap.tileSize.x + (float)(board.tilemap.boardSize.x / 2),
                     (-vector.y + board.tilemap.transform.y + 435) /
                             board.tilemap.tileSize.y + (float)(board.tilemap.boardSize.y / 2) + 0.5f);

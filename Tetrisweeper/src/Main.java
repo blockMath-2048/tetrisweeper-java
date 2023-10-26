@@ -15,7 +15,7 @@ public class Main extends PApplet {
 
 
     public void settings(){
-        size(800,900);
+        size(1200,900);
     }
     public void setup(){
         init = 0;
@@ -46,15 +46,16 @@ public class Main extends PApplet {
         ((CursorSelectionBox)scripts.get(5)).input = (InputController)scripts.get(3);
         ((CursorSelectionBox)scripts.get(5)).tilemap = (BoardTilemap)scripts.get(0);
 
-        scripts.add(boardController.timeText = new TextMeshPro(new Vector2(600, 700)));
-        scripts.add(boardController.scoreText = new TextMeshPro(new Vector2(40, 500)));
-        scripts.add(boardController.linesText = new TextMeshPro(new Vector2(40, 600)));
-        scripts.add(boardController.levelText = new TextMeshPro(new Vector2(40, 700)));
-        scripts.add(boardController.hiscoreText = new TextMeshPro(new Vector2(600, 500)));
+        scripts.add(boardController.timeText = new TextMeshPro(new Vector2(800, 700)));
+        scripts.add(boardController.scoreText = new TextMeshPro(new Vector2(420, 500)));
+        boardController.scoreText.rightAlign = true;
+        scripts.add(boardController.linesText = new TextMeshPro(new Vector2(230, 600)));
+        scripts.add(boardController.levelText = new TextMeshPro(new Vector2(230, 700)));
+        scripts.add(boardController.hiscoreText = new TextMeshPro(new Vector2(800, 500)));
 
 
-        scripts.add(gameController.nextPieceText = new TextMeshPro(new Vector2(600, 200)));
-        scripts.add(gameController.heldPieceText = new TextMeshPro(new Vector2(40, 200)));
+        scripts.add(gameController.nextPieceText = new TextMeshPro(new Vector2(800, 200)));
+        scripts.add(gameController.heldPieceText = new TextMeshPro(new Vector2(240, 200)));
 
 
 
@@ -65,7 +66,7 @@ public class Main extends PApplet {
     public void draw(){
         background(0.0f, 0.0f, 64.0f);
         if (init == 0) {
-            text("Loading 547 resources", 75, 300);
+            text("Loading 547 resources", 275, 300);
             init = 1;
             return;
         } else if (init == 1) {
@@ -88,9 +89,9 @@ public class Main extends PApplet {
         }
         if (!((BoardTilemap)scripts.get(0)).playerAlive) {
             fill(64.0f, 200.0f);
-            rect(175, 340, 450, 200);
+            rect(375, 340, 450, 200);
             fill(255.0f);
-            text("  GAME OVER\n\nPress [ENTER]\nto restart !!", 195, 400);
+            text("  GAME OVER\n\nPress [ENTER]\nto restart !!", 395, 400);
         }
         //fill(32.0f);
         //ellipse(Input.mousePosition.x, Input.mousePosition.y, 10, 10);

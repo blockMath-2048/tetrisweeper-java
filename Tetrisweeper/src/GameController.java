@@ -337,7 +337,7 @@ public class GameController extends GameScript {
         {
             return clearStreakBonus.get(streak);
         }
-        return (int)((float)clearStreakBonus.get(clearStreakBonus.size() - 1) * Math.pow(streakFactor, streak - (clearStreakBonus.size() - 1)));
+        return getStreakBonus(streak - 1) * 2;
     }
 
     public void Start()
@@ -749,6 +749,12 @@ public class GameController extends GameScript {
         }
         currentReveals = 0;
         currentPos = new Vector2Int(board.boardSize.x / 2 - 1, board.boardSize.y - 5);
+        if (!canPlacePiece()) {
+            if (!tryRotation()) {
+                board.tilemap.playerAlive = false;
+                audioController.playEffect(1);
+            }
+        }
         placePiece();
     }
 
