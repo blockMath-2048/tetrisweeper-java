@@ -56,7 +56,7 @@ public class AudioController extends GameScript {
         effectID = effect;
         effectFrame = 0f;
         if (effect == 0) {
-            music.play();
+            music.loop();
         }
         if (effect == 1) {
             death.play();
