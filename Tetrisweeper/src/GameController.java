@@ -750,6 +750,7 @@ public class GameController extends GameScript {
         currentReveals = 0;
         currentPos = new Vector2Int(board.boardSize.x / 2 - 1, board.boardSize.y - 5);
         if (!canPlacePiece()) {
+            // Try actual rotations to try and place the piece *somewhere*
             if (!tryRotation()) {
                 board.tilemap.playerAlive = false;
                 audioController.playEffect(1);
